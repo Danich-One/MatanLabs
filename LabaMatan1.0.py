@@ -1,6 +1,5 @@
 #Не использовать в личных целях! Только для провекри:)
 
-import random
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -32,7 +31,6 @@ print('Введите способ выбора значений функции 
 print('1 - Начальная точка отрезка')
 print('2 - Средняя точка отрезка')
 print('3 - Конечная точка отрезка')
-print('4 - Случайный выбор')
 print('{exit - Передумал}')
 
 def vvod():
@@ -71,25 +69,22 @@ if a == 3:
         x.append(x_st+0.5*delta/n+i*delta/n)
         y.append(f(x_st+(i+1)*delta/n))
 
-if a == 4:
-    x = [x_st + 0.5 * delta / n]
-    y = [f(x_st + delta / n)]
-    for i in range(n):
-        k = random.random()
-        s += delta/n*f(x_st+(i+k)*delta/n)
-        x.append(x_st + 0.5 * delta / n + i * delta / n)
-        y.append(f(x_st + (i + k) * delta / n))
-
-deltas134 = 2/n
+deltas13 = 2/n
 deltas2 = 1/(12*n**2)
+delta13theor = 0
+delta2theor = 0
+for i in range(1,n+1):
+    delta13theor+= (i/n+1)*(delta/n)**2
+for i in range(1,n+1):
+    delta2theor+= 1/(12*n**3)
 reference = 7/3
 print('Значение интегральной суммы: ', s, '\n')
 print('Эталонное значение по формуле Н-Л = ', reference, '\n')
 print('Δ = ', abs(reference-s))
 if a == 2:
-    print('Δs =', deltas2)
+    print('Δs =', delta2theor)
 else:
-    print('Δs =', deltas134)
+    print('Δs =', delta13theor)
 plt.grid()
 plt.plot(z, w, 'k')  # вывод графика функции
 plt.bar(x, y, width=delta/n, color='r')  # вывод графа интегральной суммы1
