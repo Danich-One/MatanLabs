@@ -10,6 +10,12 @@ def inside(x, y, points):
     polygon = Polygon(points)
     return polygon.contains(point)
 
+def intersects(x, y, points, h):
+    polygon = Polygon(points)
+    square = Polygon(((x+h/2, y-h/2), (x+h/2, y+h/2), (x-h/2, y-h/2), (x-h/2, y+h/2)))
+    return polygon.intersects(square)
+
+
 print('введите количество вершин многоугольника в области [−18, 17]×[−64, 71]:') # noqa
 num = input()
 num = int(num)
@@ -17,6 +23,7 @@ num = int(num)
 bound = np.array([[-18, 17], [-64, 71]]) # noqa
 points = np.zeros((num, 2))
 I, h = 0, 1
+R = 85 * h**2 / 6
 
 for i in range(num):
     print('введите координаты', i+1 ,'точки (x, y) через пробел:') # noqa
@@ -32,9 +39,8 @@ for x in X:
     for y in Y:
         if inside(x, y, points):
             I += f(x, y) * 2 * h**2
+        elif intersects(x, y, points, h):
+            R += f(x, y) * h**2
 
 print('Интеграл = ', I)
-
-R = 85 * h**2 / 6
-
 print('Погрешность = ', R)
